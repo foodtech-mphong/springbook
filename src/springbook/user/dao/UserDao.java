@@ -12,8 +12,8 @@ import springbook.user.domain.User;
 public class UserDao {
 	
 	public void add(User user) throws ClassNotFoundException, SQLException {
-		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		Connection c = DriverManager.getConnection("jdbc:sqlserver://min.test.server:14330;databaseName=min", "tunifos_usr", "tunifos!dbwj");
+		
+		Connection c = getConnection();
 	
 		PreparedStatement ps = c.prepareStatement("insert into users(id, name, password) values(?, ?, ?)");
 		ps.setString(1, user.getId());
@@ -27,8 +27,7 @@ public class UserDao {
 	}
 	
 	public User get(String id) throws ClassNotFoundException, SQLException {
-		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		Connection c = DriverManager.getConnection("jdbc:sqlserver://min.test.server:14330;databaseName=min", "tunifos_usr", "tunifos!dbwj");
+		Connection c = getConnection();
 
 		PreparedStatement ps = c.prepareStatement("select * from users where id = ?");
 		ps.setString(1, id);
@@ -45,6 +44,14 @@ public class UserDao {
 		c.close();
 		
 		return user;
+	}
+
+	
+	private Connection getConnection() throws ClassNotFoundException, SQLException {
+		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+		Connection c = DriverManager.getConnection("jdbc:sqlserver://min.test.server:14330;databaseName=min", "tunifos_usr", "tunifos!dbwj");
+		
+		return c;
 	}
 	
 
