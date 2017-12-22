@@ -1,7 +1,6 @@
 package springbook.user.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,7 +8,7 @@ import java.sql.SQLException;
 import springbook.user.domain.User;
 
 
-public class UserDao {
+public abstract class UserDao {
 	
 	public void add(User user) throws ClassNotFoundException, SQLException {
 		
@@ -46,35 +45,6 @@ public class UserDao {
 		return user;
 	}
 
-	
-	private Connection getConnection() throws ClassNotFoundException, SQLException {
-		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		Connection c = DriverManager.getConnection("jdbc:sqlserver://min.test.server:14330;databaseName=min", "tunifos_usr", "tunifos!dbwj");
-		
-		return c;
-	}
-	
-
-	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
-		UserDao dao = new UserDao();
-		
-		User user = new User();
-		user.setId("whiteship");
-		user.setName("백기선");
-		user.setPassword("married");
-		
-		dao.add(user);
-		
-		System.out.println(user.getId() + " 등록 성공");
-		
-		User user2 = dao.get(user.getId());
-		System.out.println(user2.getName());
-		System.out.println(user2.getPassword());
-		
-		System.out.println(user2.getId() + " 조회 성공");
-		
-
-	}	
+	public abstract Connection getConnection() throws ClassNotFoundException, SQLException;
 	
 }
